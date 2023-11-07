@@ -1,5 +1,4 @@
 package vn.edu.iuh.fit.week02.status;
-
 public enum EmployeeStatus {
     DangLamViec(1),
     TamNghi(0),

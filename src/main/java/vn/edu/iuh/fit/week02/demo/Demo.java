@@ -11,5 +11,4 @@ public class Demo {
         EmployeeRepository employeeRepository = new EmployeeRepository();
         employeeRepository.insert(new Employee("Trần Bảo Trúc", LocalDate.now(),"baotruc@gmail.com","0338030540","Nguyễn Thái Sơn, Phuường 4, Gò Vấp, HCM", EmployeeStatus.TamNghi));
     }
-
 }

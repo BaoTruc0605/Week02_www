@@ -38,7 +38,5 @@
     </tr>
     <% } %>
 </table>
-
-
 </body>
 </html>

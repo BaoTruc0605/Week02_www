@@ -24,7 +24,6 @@ public class Employee {
     private String phone;
     @Column(nullable = false,columnDefinition = "nvarchar(255)")
     private String address;
-//    @Enumerated(EnumType.ORDINAL)
     private EmployeeStatus status;
 
     @Override

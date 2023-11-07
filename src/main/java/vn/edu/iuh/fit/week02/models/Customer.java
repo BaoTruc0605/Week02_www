@@ -1,5 +1,4 @@
 package vn.edu.iuh.fit.week02.models;
-
 import jakarta.persistence.*;
 
 @Entity

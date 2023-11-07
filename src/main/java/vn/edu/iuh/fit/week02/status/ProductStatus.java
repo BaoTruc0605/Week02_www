@@ -1,5 +1,4 @@
 package vn.edu.iuh.fit.week02.status;
-
 public enum ProductStatus {
     DangKinhDoanh(1),
     TamNgung(0),

@@ -25,7 +25,6 @@
         <option value="2">Nghỉ Việc</option>
     </select><br><br>
         <button type="submit">Thêm</button>
-
     </form>
 </div>
 

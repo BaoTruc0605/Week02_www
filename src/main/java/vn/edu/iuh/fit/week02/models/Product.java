@@ -1,5 +1,4 @@
 package vn.edu.iuh.fit.week02.models;
-
 import jakarta.persistence.*;
 import vn.edu.iuh.fit.week02.status.ProductStatus;
 

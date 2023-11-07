@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Employee Detail</title>
+    <title>Employee Info</title>
 </head>
 <body>
 <% Employee employee=(Employee) request.getAttribute("employee"); %>

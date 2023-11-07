@@ -9,6 +9,6 @@
 <br/>
 <a href="hello-servlet">Hello Servlet</a>
 <a href="Week2?action=employees">List Employee</a>
-<a href="InsertEmployee.jsp">Insert Employee</a>
+<a href="InsertEmployee.jsp">Insert Employee </a>
 </body>
 </html>
