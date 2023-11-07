@@ -15,7 +15,7 @@ public class EmployeeService {
         employeeRepository.insert(employee);
     }
     public void update(Employee employee){
-        employeeRepository.insert(employee);
+        employeeRepository.update(employee);
     }
     public List<Employee> getAll(){
         return employeeRepository.getAll();

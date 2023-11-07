@@ -22,7 +22,7 @@
         Status: <select name="status">
         <option value="1">Đang làm việc</option>
         <option value="0">Tạm ngh</option>
-        <option value="2">Nghỉ Việc</option>
+        <option value="-1">Nghỉ Việc</option>
     </select><br><br>
         <button type="submit">Thêm</button>
     </form>

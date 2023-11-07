@@ -7,7 +7,8 @@ import vn.edu.iuh.fit.week02.models.Employee;
 import java.util.List;
 import java.util.Optional;
 
-public class EmployeeRepository{
+public class
+EmployeeRepository{
     private SessionFactory sessionFactory;
 
     public EmployeeRepository() {

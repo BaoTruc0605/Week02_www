@@ -34,7 +34,9 @@
         <td><%=employee.getPhone()%></td>
         <td><%=employee.getAddress()%></td>
         <td><%=employee.getStatus()%></td>
-        <td><a href="Week2?action=view&id=<%=employee.getId()%>">View</a></td>
+        <td><a href="Week2?action=view&id=<%=employee.getId()%>">View</a>
+            <a href="Week2?action=update&id=<%=employee.getId()%>">Update</a>
+        </td>
     </tr>
     <% } %>
 </table>
