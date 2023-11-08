@@ -13,8 +13,8 @@ public class Product {
     private String name;
     @Column(nullable = false,columnDefinition = "nvarchar(255)")
     private String description;
-    @Column(nullable = false,columnDefinition = "nvarchar(255)")
-    private String unit;
+    @Column(nullable = false)
+    private int unit;
     @Column(nullable = false,columnDefinition = "nvarchar(255)", name ="nanufacturer_name")
     private String manufacturerName;
 //    @Enumerated(EnumType.ORDINAL)
@@ -23,7 +23,7 @@ public class Product {
     public Product() {
     }
 
-    public Product(String name, String description, String unit, String manufacturerName, ProductStatus status) {
+    public Product(String name, String description, int unit, String manufacturerName, ProductStatus status) {
         this.name = name;
         this.description = description;
         this.unit = unit;
@@ -55,11 +55,11 @@ public class Product {
         this.description = description;
     }
 
-    public String getUnit() {
+    public int getUnit() {
         return unit;
     }
 
-    public void setUnit(String unit) {
+    public void setUnit(int unit) {
         this.unit = unit;
     }
 
