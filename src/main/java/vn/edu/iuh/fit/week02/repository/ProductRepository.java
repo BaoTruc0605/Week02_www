@@ -5,15 +5,20 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import vn.edu.iuh.fit.week02.factory.MySessionFatory;
+import vn.edu.iuh.fit.week02.models.OrderDetail;
+import vn.edu.iuh.fit.week02.models.ProductPrice;
 import vn.edu.iuh.fit.week02.status.ProductStatus;
 import vn.edu.iuh.fit.week02.models.Product;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class
 ProductRepository {
     private SessionFactory sessionFactory;
+    private ProductPriceRepository productPriceRepository = new ProductPriceRepository();
 
     public ProductRepository() {
         this.sessionFactory = MySessionFatory.getInstance().getSessionFactory();
@@ -97,6 +102,39 @@ ProductRepository {
         }
         return Optional.empty();
     }
+
+    public Map<Product, ProductPrice> getProductCoTheGiaoDichVaPrice(){
+        Transaction transaction = null;
+        Map<Product, ProductPrice> productAndPrice = new HashMap<>();
+        List<Product> pList = getProductCoTheGiaoDich();
+        List<ProductPrice> productPriceList = productPriceRepository.getPriceHieuLuc();
+        for(Product p: pList){
+            for(ProductPrice productPrice:productPriceList){
+                if(p.getId()==productPrice.getProduct().getId()){
+                    productAndPrice.put(p,productPrice);
+                }
+            }
+        }
+        return productAndPrice;
+    }
+    public void giamUnit( long productId,int soLuong){
+        Transaction transaction = null;
+        try(Session session = sessionFactory.openSession()){
+            transaction = session.beginTransaction();
+            Product p = findByID(productId).get();
+            if (p != null) {
+                // Giảm giá trị số lượng của product
+                int newUnit = p.getUnit() - soLuong; // Giảm số lượng
+                p.setUnit(newUnit);
+                // Cập nhật đối tượng vào cơ sở dữ liệu
+                session.update(p);
+            }
+            transaction.commit();
+        }catch (Exception e) {
+            transaction.rollback();
+        }
+    }
+
 
 
 }

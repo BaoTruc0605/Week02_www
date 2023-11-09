@@ -1,6 +1,9 @@
 <%@ page import="java.util.List" %>
 <%@ page import="vn.edu.iuh.fit.week02.models.*" %>
-<%@ page import="javax.lang.model.element.Element" %><%--
+<%@ page import="javax.lang.model.element.Element" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.TreeMap" %><%--
   Created by IntelliJ IDEA.
   User: BaoTruc
   Date: 11/8/2023
@@ -57,6 +60,11 @@
     <%
         List<Orders> orderList = (List<Orders>) request.getAttribute("orders");
     %>
+
+    <%
+        Map<Product,ProductPrice> productPriceList = (Map<Product, ProductPrice>) request.getAttribute("productPrice");
+    %>
+
     <%--    <%--%>
     <%--        List<OrderDetail> orderDetailList = (List<OrderDetail>) request.getAttribute("orderDetail");--%>
     <%--    %>--%>
@@ -84,21 +92,24 @@
                 <th>Description</th>
                 <th>Unit</th>
                 <th>Manufacturer</th>
-                <th>Số lượng mua</th>
+                <th>Price</th>
+                <th>Quantity</th>
             </tr>
             </thead>
             <tbody>
-            <% for (Product product : productList) { %>
+            <%for (Map.Entry<Product,ProductPrice> entry : productPriceList.entrySet()) {%>
             <tr>
-                <td><%=product.getId()%>
+                <td><%=entry.getKey().getId()%>
                 </td>
-                <td><%=product.getName()%>
+                <td><%=entry.getKey().getName()%>
                 </td>
-                <td><%=product.getDescription()%>
+                <td><%=entry.getKey().getDescription()%>
                 </td>
-                <td><%=product.getUnit()%>
+                <td><%=entry.getKey().getUnit()%>
                 </td>
-                <td><%=product.getManufacturerName()%>
+                <td><%=entry.getKey().getManufacturerName()%>
+                </td>
+                <td><%=entry.getValue().getPrice()%>
                 </td>
                 <td><%=soLuong%>
                 </td>
@@ -107,15 +118,42 @@
             </tbody>
         </table>
         <input type="hidden" name="selectedRow" value="">
-        <input type="text" name="slThem" id="slThem">
+        <input type="hidden" name="priceSelect" value="">
+        Soluong:
+        <input type="text" name="slThem" id="slThem"><br>
+        Note:
+        <input type="text" name="note" id="note"><br>
         <button type="submit">Thêm</button>
-        <a href="Week2?action=updateOrder">Sửa</a>
     </form>
 
 </div>
 <script>
     var tableRows = document.querySelectorAll('tbody tr');
     var selectedRowInput = document.querySelector('input[name="selectedRow"]');
+    var selectedRowPrice = document.querySelector('input[name="priceSelect"]');
+
+    // Chọn hàng đầu tiên khi trang được tải
+    if (tableRows.length > 0) {
+        var firstRow = tableRows[0];
+        firstRow.classList.add('selected');
+
+        // Lấy giá trị của cột đầu tiên trong hàng đã chọn
+        var firstCell = firstRow.querySelector('td:first-child');
+        var firstCellValue = firstCell.textContent;
+
+        // Lưu giá trị hàng đã chọn vào trường ẩn
+        selectedRowInput.value = firstCellValue;
+
+        // Lấy giá trị của cột thứ 6 trong hàng đã chọn
+        var sixthCell = firstRow.querySelector('td:nth-child(6)');
+        var sixthCellValue = sixthCell.textContent;
+
+        // Lưu giá trị hàng đã chọn vào trường ẩn
+        selectedRowPrice.value = sixthCellValue;
+    }
+
+
+
 
     tableRows.forEach(function(row) {
         row.addEventListener('click', function() {
@@ -134,7 +172,16 @@
 
             // Lưu giá trị hàng đã chọn vào trường ẩn
             selectedRowInput.value = firstCellValue;
+
+            // Lấy giá trị của cột thứ 6 trong hàng đã chọn
+            var sixthCell = row.querySelector('td:nth-child(6)');
+            var sixthCellValue = sixthCell.textContent;
+
+            // Lưu giá trị hàng đã chọn vào trường ẩn
+            selectedRowPrice.value = sixthCellValue;
         });
+
+
     });
 </script>
 </body>

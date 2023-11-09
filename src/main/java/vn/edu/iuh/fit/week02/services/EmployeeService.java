@@ -20,7 +20,9 @@ public class EmployeeService {
     public List<Employee> getAll(){
         return employeeRepository.getAll();
     }
-
+    public List<Employee> getEmployeeDangLam(){
+        return employeeRepository.getEmployeeDangLam();
+    }
     public Optional<Employee> findByID(long id) {
         return employeeRepository.findByID(id);
     }

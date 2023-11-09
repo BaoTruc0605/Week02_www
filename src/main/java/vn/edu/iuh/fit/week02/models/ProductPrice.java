@@ -12,6 +12,7 @@ public class ProductPrice {
     @JoinColumn(name = "product_id")
     @JsonIgnore
     private Product product;
+    @Id
     @Column(name = "price_date_time", nullable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate date;

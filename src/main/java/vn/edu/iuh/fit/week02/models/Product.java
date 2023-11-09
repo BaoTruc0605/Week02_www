@@ -2,6 +2,8 @@ package vn.edu.iuh.fit.week02.models;
 import jakarta.persistence.*;
 import vn.edu.iuh.fit.week02.status.ProductStatus;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "product")
 public class Product {
@@ -89,5 +91,18 @@ public class Product {
                 ", manufacturerName='" + manufacturerName + '\'' +
                 ", status=" + status +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return id == product.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

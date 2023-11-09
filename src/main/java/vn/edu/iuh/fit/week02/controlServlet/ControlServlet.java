@@ -12,10 +12,8 @@ import vn.edu.iuh.fit.week02.status.EmployeeStatus;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.function.ToIntFunction;
 
 
 @WebServlet(urlPatterns = {"/Week2"})
@@ -64,9 +62,9 @@ public class ControlServlet extends HttpServlet {
             }if (action.equals("showOrders")) {
                 showOrders(req, resp);
             }
-            if (action.equals("getOrder")) {
-                getOrders(req, resp);
-            }
+//            if (action.equals("getOrder")) {
+//                getOrders(req, resp);
+//            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -164,10 +162,14 @@ public class ControlServlet extends HttpServlet {
     private void showOrders(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String url = "";
         try {
-            req.setAttribute("employees", employeeService.getAll());
+            req.setAttribute("employees", employeeService.getEmployeeDangLam());
             req.setAttribute("customers", customerService.getAll());
             req.setAttribute("products", productService.getProductCoTheGiaoDich());
             req.setAttribute("orders", orderService.getAll());
+            req.setAttribute("productPrice", productService.getProductCoTheGiaoDichVaPrice());
+
+
+
             url = "/InsertOrder.jsp";
         } catch (Exception e) {
             e.printStackTrace();
@@ -176,31 +178,34 @@ public class ControlServlet extends HttpServlet {
         dispatcher.forward(req, resp);
     }
 
-    private void getOrders(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String url = "";
-        List<Orders> o = new ArrayList<>();
-        List<Customer> c = new ArrayList<>();
-        List<Employee> em = new ArrayList<>();
-        List<OrderDetail> od = new ArrayList<>();
-        try {
-            long id = Long.parseLong(req.getParameter("id"));
-            Optional<Orders> orders = orderService.findByID(id);
-            o.add(orderService.findByID(id).get());
-            req.setAttribute("orders", o);
-            em.add(orders.get().getEmployee());
-            req.setAttribute("employees", em);
-            c.add(orders.get().getCustomer());
-            req.setAttribute("customers", c);
-            req.setAttribute("products", productService.getProductByOrder(orders.get().getId()));
-            od.add(orderService.findByIDDetail(id).get(orders));
-            req.setAttribute("orderDetail", od);
-            url = "/InsertOrder.jsp";
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
-        dispatcher.forward(req, resp);
-    }
+//    private void getOrders(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        String url = "";
+//        List<Orders> o = new ArrayList<>();
+//        List<Customer> c = new ArrayList<>();
+//        List<Employee> em = new ArrayList<>();
+//        List<OrderDetail> od = new ArrayList<>();
+//
+//        try {
+//            long id = Long.parseLong(req.getParameter("id"));
+//            Optional<Orders> orders = orderService.findByID(id);
+//            o.add(orderService.findByID(id).get());
+//            req.setAttribute("orders", o);
+//            em.add(orders.get().getEmployee());
+//            req.setAttribute("employees", em);
+//            c.add(orders.get().getCustomer());
+//            req.setAttribute("customers", c);
+//            req.setAttribute("products", productService.getProductByOrder(orders.get().getId()));
+//            od.add(orderService.findByIDDetail(id).get(orders));
+//            req.setAttribute("orderDetail", od);
+//
+//
+//            url = "/InsertOrder.jsp";
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
+//        dispatcher.forward(req, resp);
+//    }
 
 //    private void updateOrder(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 //        long id = Long.parseLong(req.getParameter("id"));
@@ -239,15 +244,19 @@ public class ControlServlet extends HttpServlet {
         System.out.println(employee.toString());
         Orders o = new Orders(orderDate,employee.get(),customer.get());
         Optional<Product> product = productService.findByID(Long.parseLong(req.getParameter("selectedRow").trim()));
-        OrderDetail orderDetail = new OrderDetail(o,product.get(),quantity,555000,"hihi");
+        double price = Double.parseDouble(req.getParameter("priceSelect").trim());
+        String note = req.getParameter("note");
+        OrderDetail orderDetail = new OrderDetail(o,product.get(),quantity,price*quantity,note);
 
         if(orderService.kiemTraTonTai(o).isEmpty()){
             orderService.insert(o);
             orderDetailService.insert(orderDetail);
+            productService.giamUnit(product.get().getId(),quantity);
         }
         else{
             o.setId(orderService.kiemTraTonTai(o).get().getId());
             orderService.update(o);
+            productService.giamUnit(product.get().getId(),quantity);
             if(orderDetailService.kiemTraTonTai(orderDetail).isEmpty()){
                 orderDetailService.insert(orderDetail);
             }else {

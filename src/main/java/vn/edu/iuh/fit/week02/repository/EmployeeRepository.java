@@ -2,8 +2,13 @@ package vn.edu.iuh.fit.week02.repository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import vn.edu.iuh.fit.week02.factory.MySessionFatory;
 import vn.edu.iuh.fit.week02.models.Employee;
+import vn.edu.iuh.fit.week02.models.Product;
+import vn.edu.iuh.fit.week02.status.EmployeeStatus;
+import vn.edu.iuh.fit.week02.status.ProductStatus;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -61,6 +66,22 @@ EmployeeRepository{
             transaction.rollback();
         }
         return Optional.empty();
+    }
+    public List<Employee> getEmployeeDangLam(){
+        Transaction transaction = null;
+        List<Employee> employees = null;
+        try(Session session = sessionFactory.openSession()){
+            transaction = session.beginTransaction();
+            String sql = "select e from Employee e where e.status = :status";
+            Query<Employee> query = session.createQuery(sql, Employee.class);
+            query.setParameter("status", EmployeeStatus.DangLamViec);
+            employees = query.getResultList();
+            transaction.commit();
+            return employees;
+        }catch (Exception e) {
+            transaction.rollback();
+        }
+        return null;
     }
 
 
