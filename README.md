@@ -19,9 +19,27 @@
    ->> số lượng được cập nhật
     ![image](https://github.com/BaoTruc0605/Week02_www/assets/114350927/5fda9dd0-018f-4640-83d9-ac319c432640)
 
-   b. Thêm với số lượng lớn hơn hàng tồn, sẽ mua được với số lượng tối đa
-![image](https://github.com/BaoTruc0605/Week02_www/assets/114350927/0bf41f89-2c3f-489f-96f5-1bd157934dae)
-![image](https://github.com/BaoTruc0605/Week02_www/assets/114350927/38d11f0e-ad5b-401f-8cee-fcaea2e5fbe4)
+   b. Thêm vào order đã có với số lượng lớn hơn hàng tồn, sẽ mua được với số lượng tối đa
+  ban đầu pepsi có : unit:38, số lượng khách hàng này đã mua là 12.
+   ![image](https://github.com/BaoTruc0605/Week02_www/assets/114350927/304267a0-ab84-4713-9bcd-b0350b6b3510)
+   Số lượng tồn là 38
+   ![image](https://github.com/BaoTruc0605/Week02_www/assets/114350927/ed09da42-a939-435f-bec1-8776d1a6e1e8)
+   Số lượng mua là 12, tổng tiền là 120000
+   ![image](https://github.com/BaoTruc0605/Week02_www/assets/114350927/c61e7940-dc0d-42c9-8a31-32faf3bc0d03)
+   Nếu insert với số lượng 555 thì nhiều hơn hàng tồn(555>38). Nên chỉ có thể order với ố lượng tối đa là 38. 
+   ![image](https://github.com/BaoTruc0605/Week02_www/assets/114350927/b7466bee-c2c9-41f3-825c-6a8498875571)
+   Lúc này pepsi có số lượng tồn = 0 nên không thể đưa ra bán. Nên pepsi không hiển thị
+   ![image](https://github.com/BaoTruc0605/Week02_www/assets/114350927/0fb2b866-1ea7-42f5-af86-e9fcd733bf9b)
+   số lượng pepsi trong cơ sở dữ liệu = 0
+   ![image](https://github.com/BaoTruc0605/Week02_www/assets/114350927/1895a811-a51d-4b15-92e6-4dcc1306b595)
+   Số lượng và giá trong order detail cũng đã cập nhật đúng
+   ![image](https://github.com/BaoTruc0605/Week02_www/assets/114350927/8fb21ddc-8e78-4f2e-b2db-cf3bcb7ef3dd)
+
+
+
+
+
+
 
    
 
