@@ -89,7 +89,7 @@ OrderDetailRepository {
         }
         return Optional.empty();
     }
-    public void tangSoLuong( long productId,long orderId,int soLuong){
+    public void tangSoLuong( long productId,long orderId,int soLuong, double tien){
         Transaction transaction = null;
         try(Session session = sessionFactory.openSession()){
             transaction = session.beginTransaction();
@@ -99,6 +99,8 @@ OrderDetailRepository {
                 // Tăng giá trị số lượng của OrderDetail
                 int newQuantity = orderDetail.getQuantity() + soLuong; // Tăng số lượng
                 orderDetail.setQuantity(newQuantity);
+                double newTien = orderDetail.getPrice() + tien;
+                orderDetail.setPrice(newTien);
                 // Cập nhật đối tượng vào cơ sở dữ liệu
                 session.update(orderDetail);
             }

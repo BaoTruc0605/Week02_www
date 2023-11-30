@@ -37,9 +37,17 @@
         }
 
 
-
     </style>
+    <script>
+        // Lấy ngày hiện tại
+        let currentDate = new Date();
 
+        // Chuyển định dạng ngày thành YYYY-MM-DD (định dạng của input type="date")
+        let formattedDate = currentDate.toISOString().slice(0, 10);
+
+        // Đặt giá trị mặc định cho trường nhập ngày
+        document.getElementById('orderDateInput').value = formattedDate;
+    </script>
 
 
     <title>Lập hóa đơn</title>
@@ -47,6 +55,7 @@
 <body>
 <div class="container">
     <%int soLuong = 0;%>
+    <%long cusId = 1;%>
 
     <%
         List<Employee> employeeList = (List<Employee>) request.getAttribute("employees");
@@ -60,30 +69,36 @@
     <%
         List<Orders> orderList = (List<Orders>) request.getAttribute("orders");
     %>
+    <%
+        List<OrderDetail> orderDetailList = (List<OrderDetail>) request.getAttribute("orderDetail");
+    %>
 
     <%
-        Map<Product,ProductPrice> productPriceList = (Map<Product, ProductPrice>) request.getAttribute("productPrice");
+        Map<Product, ProductPrice> productPriceList = (Map<Product, ProductPrice>) request.getAttribute("productPrice");
     %>
 
     <%--    <%--%>
     <%--        List<OrderDetail> orderDetailList = (List<OrderDetail>) request.getAttribute("orderDetail");--%>
     <%--    %>--%>
 
-    <h1>Insert Account</h1>
+    <h1>Insert Order</h1>
     <form method="post" action="Week2?action=insertOrder">
+        <input type="hidden" id="selectedCustomerIdInput" name="selectedCustomerIdInput" th:value="${cusId}">
+
         Employee: <select name="employee">
+
         <% for (Employee employee : employeeList) { %>
         <option value=<%= employee.getId() %>><%= employee.getPhone() %>_<%= employee.getFullName() %>
         </option>
         <%}%>
     </select>
-        Customer: <select name="customer">
+        <select name="customer">
         <% for (Customer customer : customerList) { %>
         <option value=<%= customer.getId() %>><%= customer.getPhone() %>_<%= customer.getName() %>
         </option>
         <%}%>
-    </select>
-        Order date: <input type="date" name="orderDate"><br>
+        </select>
+        Order date: <input type="date" name="orderDate" id="orderDateInput"><br>
         <table>
             <thead>
             <tr>
@@ -97,7 +112,7 @@
             </tr>
             </thead>
             <tbody>
-            <%for (Map.Entry<Product,ProductPrice> entry : productPriceList.entrySet()) {%>
+            <%for (Map.Entry<Product, ProductPrice> entry : productPriceList.entrySet()) {%>
             <tr>
                 <td><%=entry.getKey().getId()%>
                 </td>
@@ -111,8 +126,19 @@
                 </td>
                 <td><%=entry.getValue().getPrice()%>
                 </td>
-                <td><%=soLuong%>
-                </td>
+                <% for (Orders orders : orderList) { %>
+                <%if (orders.getCustomer().getId() == cusId) {%>
+
+                <% for (OrderDetail orderDetail : orderDetailList) { %>
+
+                <%if (entry.getKey().getId() == orderDetail.getProduct().getId()) {%>
+                <%soLuong = orderDetail.getQuantity();%>
+                <% } %>
+
+                <% } %>
+                <% } %>
+                <% } %>
+                <td><%=soLuong%> </td>
             </tr>
             <% } %>
             </tbody>
@@ -153,10 +179,8 @@
     }
 
 
-
-
-    tableRows.forEach(function(row) {
-        row.addEventListener('click', function() {
+    tableRows.forEach(function (row) {
+        row.addEventListener('click', function () {
             // Xóa chọn trước đó nếu có
             var selectedRow = document.querySelector('tr.selected');
             if (selectedRow) {
@@ -182,6 +206,16 @@
         });
 
 
+    });
+    var customerSelect = document.getElementById('customerSelect');
+    var selectedCustomerIdInput = document.getElementById('selectedCustomerId');
+
+    customerSelect.addEventListener('change', function () {
+        // Lấy giá trị customerId được chọn
+        var selectedCustomerId = customerSelect.value;
+
+        // Gán giá trị vào trường input hidden
+        selectedCustomerIdInput.value = selectedCustomerId;
     });
 </script>
 </body>

@@ -30,8 +30,8 @@ public class OrderDetailService {
     public Optional<OrderDetail> kiemTraTonTai(OrderDetail orderDetail){
         return orderDetailRepository.kiemTraTonTai(orderDetail);
     }
-    public void tangSoLuong(long productId,long orderId, int soLuong){
-        orderDetailRepository.tangSoLuong(productId,orderId, soLuong);
+    public void tangSoLuong(long productId,long orderId, int soLuong, double tien){
+        orderDetailRepository.tangSoLuong(productId,orderId, soLuong,tien);
     }
 }
 

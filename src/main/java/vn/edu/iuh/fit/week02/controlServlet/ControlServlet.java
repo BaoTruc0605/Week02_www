@@ -167,6 +167,7 @@ public class ControlServlet extends HttpServlet {
             req.setAttribute("products", productService.getProductCoTheGiaoDich());
             req.setAttribute("orders", orderService.getAll());
             req.setAttribute("productPrice", productService.getProductCoTheGiaoDichVaPrice());
+            req.setAttribute("orderDetail",orderDetailService.getAll());
 
 
 
@@ -237,6 +238,7 @@ public class ControlServlet extends HttpServlet {
 
     public void insertOrder(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int quantity = Integer.parseInt(req.getParameter("slThem"));
+
         Optional<Employee> employee = employeeService.findByID(Long.parseLong(req.getParameter("employee")));
         Optional<Customer> customer = customerService.findByID(Long.parseLong(req.getParameter("customer")));
         LocalDate orderDate = LocalDate.parse(req.getParameter("orderDate"));
@@ -246,6 +248,10 @@ public class ControlServlet extends HttpServlet {
         Optional<Product> product = productService.findByID(Long.parseLong(req.getParameter("selectedRow").trim()));
         double price = Double.parseDouble(req.getParameter("priceSelect").trim());
         String note = req.getParameter("note");
+        if(quantity>product.get().getUnit()){
+            quantity = product.get().getUnit();
+        }
+
         OrderDetail orderDetail = new OrderDetail(o,product.get(),quantity,price*quantity,note);
 
         if(orderService.kiemTraTonTai(o).isEmpty()){
@@ -260,7 +266,7 @@ public class ControlServlet extends HttpServlet {
             if(orderDetailService.kiemTraTonTai(orderDetail).isEmpty()){
                 orderDetailService.insert(orderDetail);
             }else {
-                orderDetailService.tangSoLuong(product.get().getId(),orderDetailService.kiemTraTonTai(orderDetail).get().getOrders().getId(),quantity);
+                orderDetailService.tangSoLuong(product.get().getId(),orderDetailService.kiemTraTonTai(orderDetail).get().getOrders().getId(),quantity, price*quantity);
             }
         }
         resp.sendRedirect("index.jsp");
